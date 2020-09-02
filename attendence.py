@@ -55,7 +55,11 @@ while True:
         if  matches[matchIndex]:
             name = classNames[matchIndex].upper()
             print(name)
-
+            y1, x2, y2, x1 = faceloc
+            y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4 #since we resized the images to .25 or 1/4 intially
+            cv2.rectangle(img,(x1,y1),(x2,y2),(0,225,0),2)
+            cv2.rectangle(img,(x1,y2-35),(x2,y2),(0,225,225),cv2.FILLED)
+            cv2.putText(img,name,(x1+6,y2-6),cv2.FONT_HERSHEY_TRIPLEX,1,(0,0,255),2)
 
     #show webcam
     cv2.imshow("Webcam",img)
