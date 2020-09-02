@@ -48,7 +48,7 @@ print(len(encodeknownlist))
 print("Yay! Some known faces found!!")
 
 
-#------------------------Initialise WebCam---------------#
+#------------------------WebCam Functionalities---------------#
 capture = cv2.VideoCapture(0)
 
 while True:
@@ -73,10 +73,9 @@ while True:
             y1, x2, y2, x1 = faceloc
             y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4 #since we resized the images to .25 or 1/4 intially
             cv2.rectangle(img,(x1,y1),(x2,y2),(0,225,0),2)
-            cv2.rectangle(img,(x1,y2-35),(x2,y2),(0,225,225),cv2.FILLED)
-            cv2.putText(img,name,(x1+6,y2-6),cv2.FONT_HERSHEY_TRIPLEX,1,(0,0,255),2)
+            cv2.rectangle(img,(x1,y2-35),(x2,y2),(255,0,0),cv2.FILLED)
+            cv2.putText(img,name,(x1+6,y2-6),cv2.FONT_HERSHEY_TRIPLEX,1,(255,255,255),2)
             markAttendence(name)
-
 
     #show webcam
     cv2.imshow("Webcam",img)
@@ -86,32 +85,3 @@ while True:
 #capture.release(0, cv2.CAP_DSHOW)
 #cv2.destroyAllWindows()
 
-'''
-#------------Face Location and Encoding----------------------#
-#------IMAGE 1-----------#
-LocationFace1 = face_recognition.face_locations(Image1)[0]
-encodeImage1 =face_recognition.face_encodings(Image1)[0]
-cv2.rectangle(Image1,(LocationFace1[3],LocationFace1[0]),(LocationFace1[1],LocationFace1[2]),(255,0,255),2)
-#createwindowtoshowimage
-cv2.namedWindow('Image 1 ',cv2.WINDOW_NORMAL)
-#cv2.resizeWindow('Image 1 ', 600,600)
-
-#print(LocationFace1)
-
-#------IMAGE 2-----------#
-LocationFace2 = face_recognition.face_locations(Image2)[0]
-encodeImage2 =face_recognition.face_encodings(Image2)[0]
-cv2.rectangle(Image2,(LocationFace2[3],LocationFace2[0]),(LocationFace2[1],LocationFace2[2]),(255,0,255),2)
-#createwindowtoshowimage
-cv2.namedWindow('Image 2',cv2.WINDOW_NORMAL)
-#cv2.resizeWindow('Image 2', 600,600)
-
-#print(LocationFace2)
-
-#----------------faceEncodingCheck------------------#
-encodingresult = face_recognition.compare_faces([encodeImage1],encodeImage2)
-faceDistance = face_recognition.face_distance([encodeImage1],encodeImage2)
-print(encodingresult, faceDistance)
-cv2.putText(Image2, f'{encodingresult}{round(faceDistance[0],2)}',(50,50),cv2.FONT_HERSHEY_SCRIPT_COMPLEX,1,(255,146,0),)
-
-'''
