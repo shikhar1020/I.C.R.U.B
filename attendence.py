@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import face_recognition
 import os
+from datetime import datetime
 
 path = 'Images'
 
@@ -27,6 +28,20 @@ def findEncodings(images):
         encodelist.append(encodepic)
     return encodelist
 
+#-------------function to list/mark the attendence sheet with time-------#
+def markAttendence(name):
+    with open("attendencelist.csv", 'r+') as f:
+        myDataList = f.readlines()
+        nameList = []
+        for line in myDataList:
+            entry = line.split(',')
+            nameList.append(entry[0])
+        if name not in nameList:
+            now = datetime.now()
+            dtString = now.strftime('%H:%M:%S')
+            f.writelines(f'\n{name},{dtString}')
+
+
 
 encodeknownlist = findEncodings(images)
 print(len(encodeknownlist))
@@ -51,7 +66,7 @@ while True:
         print(faceDist)
         matchIndex = np.argmin(faceDist)
 
-        #matching list
+        #matching from list and showing name in webcam image
         if  matches[matchIndex]:
             name = classNames[matchIndex].upper()
             print(name)
@@ -60,6 +75,8 @@ while True:
             cv2.rectangle(img,(x1,y1),(x2,y2),(0,225,0),2)
             cv2.rectangle(img,(x1,y2-35),(x2,y2),(0,225,225),cv2.FILLED)
             cv2.putText(img,name,(x1+6,y2-6),cv2.FONT_HERSHEY_TRIPLEX,1,(0,0,255),2)
+            markAttendence(name)
+
 
     #show webcam
     cv2.imshow("Webcam",img)
